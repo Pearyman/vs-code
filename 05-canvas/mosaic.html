@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mosaic canvas</title>
+</head>
+<body>
+  <canvas id="canvas" width='200' height='200'> </canvas>
+  <script>
+    const canvas = document.getElementById("canvas")
+    const ctx = canvas.getContext("2d")  // 二维绘图
+     
+    const image = new Image()
+    image.src = "image.jpg"  
+    
+    image.onload = function(){
+        ctx.drawImage(image, 0, 0)
+        let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+        console.log(imageData)
+        drawMosaic(imageData)
+
+      }
+    
+
+    function drawMosaic(imageData){
+      let r, g, b;
+      for(let x = 0; x <= canvas.width; x += 10) {
+          for(let y = 0; y <= canvas.height; y += 10) {
+              /*
+              获取具体位置上像素点的RGB值，然后在canvas上重新绘制图片
+              */
+              r = imageData.data[(y * canvas.width + x) * 4]
+              g = imageData.data[(y * canvas.width + x) * 4 + 1]
+              b = imageData.data[(y * canvas.width + x) * 4 + 2]
+
+              color = `rgb(${r}, ${g}, ${b})`
+
+              /*
+              在图像具体位置生成马赛克
+              */
+              ctx.fillStyle = color
+              ctx.fillRect(x, y, 10,10)
+          }
+      }
+    }
+    
+  </script>
+</body>
+</html>
