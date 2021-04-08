@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r127/three.min.js"></script>
+  <script>
+    /**
+      * 创建场景对象Scene
+      */
+    const scene = new THREE.Scene()
+    /**
+     * 创建网格模型
+     */
+    const geometry = new THREE.BoxGeometry(50, 50, 50)
+    let colorArr = []
+    colorArr.push(new THREE.MeshBasicMaterial({ color: 'deeppink' }))
+    colorArr.push(new THREE.MeshBasicMaterial({ color: 'seagreen' }))
+    colorArr.push(new THREE.MeshBasicMaterial({ color: 'skyblue' }))
+    colorArr.push(new THREE.MeshBasicMaterial({ color: 'lightcoral' }))
+    colorArr.push(new THREE.MeshBasicMaterial({ color: 'mediumseagreen' }))
+    colorArr.push(new THREE.MeshBasicMaterial({ color: 'dodgerblue' }))
+    const mesh = new THREE.Mesh(geometry, colorArr)
+    scene.add(mesh)
+
+
+
+
+    /**
+      * 相机设置
+      */
+    const width = window.innerWidth //窗口宽度
+    const height = window.innerHeight //窗口高度
+    const k = width / height //窗口宽高比
+    const s = 200 //三维场景显示范围控制系数，系数越大，显示的范围越大
+    //创建相机对象
+    const camera = new THREE.OrthographicCamera(-s * k, s * k, s, -s, 1, 1000)
+    camera.position.set(200, 300, 200) //设置相机位置
+    camera.lookAt(scene.position) //设置相机方向(指向的场景对象)
+
+
+
+
+    /**
+     * 光源设置
+     */
+    //点光源
+    // var point = new THREE.PointLight(0xffffff);
+    // point.position.set(400, 200, 300); //点光源位置
+    // scene.add(point); //点光源添加到场景中
+    // //环境光
+    // var ambient = new THREE.AmbientLight(0x444444);
+    // scene.add(ambient);
+
+
+
+
+    /**
+     * 创建渲染器对象
+     */
+    const renderer = new THREE.WebGLRenderer()
+    renderer.setSize(width, height) //设置渲染区域尺寸
+    renderer.setClearColor(0x999999, 1) //设置背景颜色及透明度
+    document.body.appendChild(renderer.domElement)  //body元素中插入canvas对象
+    renderer.render(scene, camera)
+    //执行渲染操作   指定场景、相机作为参数
+    // const render = function () {
+    //   renderer.render(scene, camera);
+    //   mesh.rotateY(0.01)
+    // }
+    // setInterval(render, 20)
+    // render()
+
+
+  </script>
+</body>
+
+</html>
