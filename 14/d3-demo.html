@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>d3</title>
+  <style>
+    svg {
+      /* overflow: visible; */
+    }
+  </style>
+</head>
+
+<body>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/6.7.0/d3.min.js"></script>
+  <script>
+    // const value = [1, 2, 3, 4]
+
+    // d3.select('body').selectAll('p')
+    //   .datum(value)
+    //   .text(d => `dataum-${d}`)
+
+    // d3.select('body').selectAll('p')
+    //   .data(value)
+    //   .enter()
+    //   .append('p')
+    //   .text(d => `data-${d}`)
+
+    // 坐标轴
+
+    let svg = d3.select('body').append('svg')
+      .attr('width', 400)
+      .attr('height', 400)
+
+    // 比例尺
+    let xScale = d3.scaleLinear().domain([0, 20]).range([0, 300])
+    let yScale = d3.scaleLinear().domain([0, 40]).range([270, 0])
+
+    // 坐标轴
+    let xAxis = d3.axisBottom(xScale)
+    let yAxis = d3.axisRight(yScale)
+
+    // 添加x坐标轴
+    svg.append('g')
+      .attr('class', 'x-axis')
+      .call(xAxis)
+      .attr('transform', 'translate(50,280)')
+
+    // 添加y坐标轴
+    svg.append('g')
+      .attr('class', 'y-axis')
+      .call(yAxis)
+      .attr('transform', 'translate(50,10)')
+
+  </script>
+</body>
+
+</html>
