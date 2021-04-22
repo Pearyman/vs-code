@@ -9,11 +9,9 @@
 </head>
 
 <body>
-  <button class="btn0">I'M BUTTON</button>
+  <button class="btn">CLICK ME</button>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/6.7.0/d3.min.js"></script>
   <script>
-
-
 
 
     let width = 400
@@ -27,75 +25,68 @@
 
     let dataset = [10, 20, 30, 40, 50, 60, 70, 80]
 
-    //x轴的比例尺(创建一个序列化比例尺)
+    //x轴的比例尺
     let xScale = d3.scaleBand()
       .domain(d3.range(dataset.length))
-      .rangeRound([0, width - padding.left - padding.right]);
+      .rangeRound([0, width - padding.left - padding.right])
 
     //y轴的比例尺
     let yScale = d3.scaleLinear()
       .domain([0, d3.max(dataset)])
-      .range([height - padding.top - padding.bottom, 0]);
+      .range([height - padding.top - padding.bottom, 0])
 
-    let xAxis = d3.axisBottom(xScale); //定义x轴
-    let yAxis = d3.axisLeft(yScale); //定义y轴
+    let xAxis = d3.axisBottom(xScale) //定义x轴
+    let yAxis = d3.axisLeft(yScale) //定义y轴
 
-    var rectPadding = 4;
+    let rectPadding = 4
 
-    //添加矩形元素
-    // var rect = svg.append("rect")
-    var rects = svg.selectAll(".MyRect")
+    // 添加矩形元素
+    let rects = svg.selectAll(".rect")
       .data(dataset)
       .enter()
-      .append("rect")
-      .attr("class", "MyRect")
-      .attr(
-        "transform",
-        "translate(" + padding.left + "," + padding.top + ")"
-      )
-      .attr("x", function (d, i) {
-        return xScale(i) + rectPadding / 2;
+      .append('rect')
+      .attr('class', 'rect')
+      .attr('transform', `translate( ${padding.left},${padding.top} )`)
+      .attr('x', function (d, i) {
+        return xScale(i) + rectPadding / 2
       })
-      .attr("y", function (d) {
-        return yScale(d);
+      .attr('y', function (d) {
+        return yScale(d)
       })
-      .attr("width", xScale.step() - rectPadding)
-      .attr("height", function (d) {
-        return height - padding.top - padding.bottom - yScale(d);
+      .attr('width', xScale.step() - rectPadding)
+      .attr('height', function (d) {
+        return height - padding.top - padding.bottom - yScale(d)
       })
-      .attr("fill", 'rgb(51,138,255)')
+      .attr('fill', 'rgb(51,138,255)')
       .on('mouseover', function (d, i) {
         d3.select(this).transition()
           .duration(200)
-          .attr('fill', 'gray')
+          .attr('opacity', '.7')
       })
       .on('mouseout', function (d, i) {
         d3.select(this).transition()
           .duration(200)
-          .attr('fill', 'rgb(51,138,255)')
+          .attr('opacity', '1')
       })
 
 
     //添加文字元素
-    var texts = svg.selectAll(".MyText")
+    let texts = svg.selectAll('.text')
       .data(dataset)
       .enter()
-      .append("text")
-      .attr("class", "MyText")
-      .attr(
-        "transform",
-        "translate(" + padding.top + "," + padding.top + ")"
-      )
-      .attr("x", function (d, i) {
+      .append('text')
+      .attr('class', 'text')
+      .attr('transform', `translate( ${padding.left}, ${padding.top} )`)
+      .attr('x', function (d, i) {
         return xScale(i) + rectPadding / 2
       })
-      .attr("y", function (d) {
+      .attr('y', function (d) {
         return yScale(d)
       })
-      .attr("dx", function () {
-        return (xScale.step() - rectPadding) / 2
+      .attr('dx', function () {
+        return (xScale.step() - rectPadding - 16) / 2
       })
-      .attr("dy", function (d) {
+      .attr('dy', function (d) {
         return -5
       })
       .text(function (d) {
@@ -105,37 +96,37 @@
 
     //添加x轴
     svg.append("g")
-      .attr("class", "axis")
-      .attr("transform", "translate(" + padding.left + "," + (height - padding.bottom) + ")")
+      .attr("class", "x-axis")
+      .attr("transform", `translate(${padding.left},${height - padding.bottom})`)
       .call(xAxis);
 
     //添加y轴
     svg.append("g")
-      .attr("class", "axis")
-      .attr("transform", "translate(" + padding.left + "," + padding.top + ")")
+      .attr("class", "y-axis")
+      .attr("transform", `translate(${padding.left} ,${padding.top})`)
       .call(yAxis);
 
 
-    // 事件
-    d3.select('.btn0').on('click', function () {
+    // 添加事件
+    d3.select('.btn').on('click', function () {
       dataset = randomNumber()
       console.log(dataset);
-      svg.selectAll(".MyRect")
-        .data(dataset)
-        .transition()
-        .duration(2000) // <-- 这是新代码，其他都保持不变。2000 毫秒，即2 秒
-        .attr("y", function (d) {
-          return yScale(d);
-        })
-        .attr("height", function (d) {
-          return height - padding.top - padding.bottom - yScale(d);
-        })
-
-      svg.selectAll(".MyText")
+      svg.selectAll('.rect')
         .data(dataset)
         .transition()
         .duration(2000)
-        .attr("y", function (d) {
+        .attr('y', function (d) {
+          return yScale(d);
+        })
+        .attr('height', function (d) {
+          return height - padding.top - padding.bottom - yScale(d);
+        })
+
+      svg.selectAll('.text')
+        .data(dataset)
+        .transition()
+        .duration(2000)
+        .attr('y', function (d) {
           return yScale(d)
         })
         .text(function (d) {
